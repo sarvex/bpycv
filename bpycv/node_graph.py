@@ -87,10 +87,8 @@ class Node(object):
     def set_input(self, dic=None, **kv):
         if dic is None:
             dic = {}
-        kv.update(dic)
+        kv |= dic
         for k, v in kv.items():
             self.set_kv(k, v)
 
 
-if __name__ == "__main__":
-    pass

@@ -83,7 +83,7 @@ class set_image_render(StatuRecover):
 
 def render_image():
     render = bpy.data.scenes[0].render
-    png_path = tempfile.NamedTemporaryFile().name + ".png"
+    png_path = f"{tempfile.NamedTemporaryFile().name}.png"
     with set_image_render(), withattr(render, "filepath", png_path):
         print("Render image using:", render.engine)
         bpy.ops.render.render(write_still=True)
@@ -109,7 +109,7 @@ def render_data(render_image=True, render_annotation=True):
     if render_image:
         render_result["image"] = _render_image()
     if render_annotation:
-        exr_path = path + ".exr"
+        exr_path = f"{path}.exr"
         with set_inst_material(), set_annotation_render(), withattr(
             render, "filepath", exr_path
         ):
@@ -118,12 +118,10 @@ def render_data(render_image=True, render_annotation=True):
         render_result["exr"] = parser_exr(exr_path)
         os.remove(exr_path)
     result = ImageWithAnnotation(**render_result)
-    if "render_6d_pose" and render_annotation:
+    if render_annotation:
         objs = [obj for obj in bpy.data.objects if "inst_id" in obj]
         ycb_6d_pose = get_6d_pose(objs, inst=result["inst"])
         result["ycb_6d_pose"] = ycb_6d_pose
     return result
 
 
-if __name__ == "__main__":
-    pass

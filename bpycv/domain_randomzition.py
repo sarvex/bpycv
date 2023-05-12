@@ -80,5 +80,3 @@ def load_distractor(distractor_path, target_size="fit_to_YCB"):
     return distractor
 
 
-if __name__ == "__main__":
-    pass

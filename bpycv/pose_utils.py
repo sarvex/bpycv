@@ -38,7 +38,7 @@ def get_4x4_world_to_cam_from_blender(camera):
     R_bcam2cv = mathutils.Matrix(((1, 0, 0), (0, -1, 0), (0, 0, -1)))
 
     # Use matrix_world instead to account for all constraints
-    location, rotation = camera.matrix_world.decompose()[0:2]
+    location, rotation = camera.matrix_world.decompose()[:2]
     R_world2bcam = rotation.to_matrix().transposed()
 
     # Convert camera location to translation vector used in coordinate changes
@@ -49,8 +49,7 @@ def get_4x4_world_to_cam_from_blender(camera):
     R_world2cv = R_bcam2cv @ R_world2bcam
     T_world2cv = R_bcam2cv @ T_world2bcam
 
-    # put into 4x4 matrix
-    world_to_cam = mathutils.Matrix(
+    return mathutils.Matrix(
         (
             R_world2cv[0][:] + (T_world2cv[0],),
             R_world2cv[1][:] + (T_world2cv[1],),
@@ -58,7 +57,6 @@ def get_4x4_world_to_cam_from_blender(camera):
             (0, 0, 0, 1),
         )
     )
-    return world_to_cam
 
 
 def get_K_world_to_cam(camera):
@@ -120,14 +118,12 @@ def set_pose_in_cam(obj, pose_Rt, cam):
 
 def get_6d_pose(objs, inst=None, camera=None):
     def inst_id_to_area(inst_id):
-        if inst is None:
-            return -1
-        return (inst == inst_id).sum()
+        return -1 if inst is None else (inst == inst_id).sum()
 
     bpy.context.view_layer.update()
     if camera is None:
         camera = bpy.context.scene.camera
-    meta = dict()
+    meta = {}
     meta.update(get_K_world_to_cam(camera))
     meta["cam_matrix_world"] = np.array(camera.matrix_world)
     for key in [
@@ -174,5 +170,3 @@ def get_6d_pose(objs, inst=None, camera=None):
     return dict(meta)
 
 
-if __name__ == "__main__":
-    pass

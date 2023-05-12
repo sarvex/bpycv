@@ -77,10 +77,10 @@ class HdriManager:
     def set_hdr_paths(self):
         self.all_paths = sorted(
             sum(
-                [
+                (
                     glob.glob(os.path.join(self.hdri_dir, f"*.{ext}"))
                     for ext in self.exts
-                ],
+                ),
                 [],
             )
         )
@@ -153,7 +153,7 @@ class HdriManager:
                     if self.debug:
                         print(name)
                     prefix = f"{name}_{resolution}"
-                    paths = boxx.glob(os.path.join(hdri_dir, prefix + "*"))
+                    paths = boxx.glob(os.path.join(hdri_dir, f"{prefix}*"))
                     if len(paths):
                         return paths[0]
                     url = f"https://hdrihaven.com/hdri/?h={name}"
@@ -216,7 +216,7 @@ class HdriManager:
         hm = HdriManager(
             hdri_dir=hdri_dir, category="indoor", download=False, debug=True
         )
-        for i in range(10):
+        for _ in range(10):
             hdri = hm.sample()
             print(hdri)
             assert hm.category in hdri

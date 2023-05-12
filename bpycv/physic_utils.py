@@ -34,5 +34,3 @@ def set_origin_by_point(obj, point):
     return obj
 
 
-if __name__ == "__main__":
-    pass

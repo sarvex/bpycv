@@ -31,5 +31,3 @@ def get_objdf():
     return pd.DataFrame(row_dics)
 
 
-if __name__ == "__main__":
-    pass

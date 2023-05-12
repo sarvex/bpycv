@@ -53,7 +53,7 @@ class set_inst_material(StatuRecover):
 
 
 def set_vertex_color_material(obj):
-    material = bpy.data.materials.new(obj.name + "_VertexColor_bpycv")
+    material = bpy.data.materials.new(f"{obj.name}_VertexColor_bpycv")
     material.use_nodes = True
     material.node_tree.nodes.clear()
     with activate_node_tree(material.node_tree):
@@ -126,7 +126,7 @@ def get_texture_paths(texture_dir):
         alias_texture_name_to_name(bname[i:-_i]): pathjoin(texture_dir, bname)
         for bname in bnames
     }
-    texture_paths["name"] = bnames[0][:i] + "." + bnames[0][-_i:]
+    texture_paths["name"] = f"{bnames[0][:i]}.{bnames[0][-_i:]}"
     return texture_paths
 
 
@@ -212,5 +212,3 @@ def build_tex(texture_dir):
     return material
 
 
-if __name__ == "__main__":
-    pass

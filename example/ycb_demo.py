@@ -52,7 +52,7 @@ for index in range(5):
         bpy.ops.rigidbody.object_add()
 
 # load 6 distractors
-for index in range(6):
+for _ in range(6):
     distractor_path = random.choice(distractors)
     target_size = random.uniform(0.1, 0.3)
     distractor = bpycv.load_distractor(distractor_path, target_size=target_size)
@@ -66,7 +66,7 @@ for index in range(6):
         bpy.ops.rigidbody.object_add()
 
 # run pyhsic engine for 20 frames
-for i in range(20):
+for _ in range(20):
     bpy.context.scene.frame_set(bpy.context.scene.frame_current + 1)
 
 # If the GPU is not in use, uncoment this line

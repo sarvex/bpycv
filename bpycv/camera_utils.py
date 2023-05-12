@@ -53,17 +53,12 @@ def get_cam_intrinsic(cam=None):
     """
     # BKE_camera_sensor_size
     def get_sensor_size(sensor_fit, sensor_x, sensor_y):
-        if sensor_fit == "VERTICAL":
-            return sensor_y
-        return sensor_x
+        return sensor_y if sensor_fit == "VERTICAL" else sensor_x
 
     # BKE_camera_sensor_fit
     def get_sensor_fit(sensor_fit, size_x, size_y):
         if sensor_fit == "AUTO":
-            if size_x >= size_y:
-                return "HORIZONTAL"
-            else:
-                return "VERTICAL"
+            return "HORIZONTAL" if size_x >= size_y else "VERTICAL"
         return sensor_fit
 
     cam = cam or get_cams()[0]
@@ -141,5 +136,3 @@ def set_cam_intrinsic(cam, K, hw=None):
     camd.shift_y = (v_0 - h / 2) / w * pixel_aspect_ratio
 
 
-if __name__ == "__main__":
-    pass

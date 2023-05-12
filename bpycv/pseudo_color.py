@@ -347,5 +347,3 @@ if __name__ == "__main__":
     depth = depth / depth.max()
 
     test_heatmap_to_pseudo_color(depth)
-
-    pass

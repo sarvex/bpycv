@@ -116,9 +116,7 @@ class ImageWithAnnotation(dict):
         self["_raw_exr"] = exr
 
     def __getattribute__(self, key):
-        if key in self:
-            return self[key]
-        return dict.__getattribute__(self, key)
+        return self[key] if key in self else dict.__getattribute__(self, key)
 
     def vis(self):
         vis_list = []  # RGB float 0.~1.
@@ -148,7 +146,7 @@ class ImageWithAnnotation(dict):
         if self.get("inst") is not None:
             inst_dir = pathjoin(dataset_dir, "instance_map")
             os.makedirs(inst_dir, exist_ok=True)
-            inst_path = pathjoin(inst_dir, fname + ".png")
+            inst_path = pathjoin(inst_dir, f"{fname}.png")
             cv2.imwrite(inst_path, self["inst"].clip(0).astype(np.uint16))
         if self.get("depth") is not None:
             depth_dir = pathjoin(dataset_dir, "depth")
@@ -162,29 +160,28 @@ class ImageWithAnnotation(dict):
         ):
             vis_dir = pathjoin(dataset_dir, "vis")
             os.makedirs(vis_dir, exist_ok=True)
-            vis_path = pathjoin(vis_dir, fname + ".jpg")
+            vis_path = pathjoin(vis_dir, f"{fname}.jpg")
             cv2.imwrite(vis_path, self.vis()[..., ::-1])
         if self.get("ycb_6d_pose") is not None:
             pose_dir = pathjoin(dataset_dir, "ycb_6d_pose")
             os.makedirs(pose_dir, exist_ok=True)
-            pose_path = pathjoin(pose_dir, fname + ".mat")
+            pose_path = pathjoin(pose_dir, f"{fname}.mat")
             scipy.io.savemat(pose_path, self["ycb_6d_pose"])
         if save_blend:
             blend_dir = pathjoin(dataset_dir, "blend")
             os.makedirs(blend_dir, exist_ok=True)
-            blend_path = pathjoin(blend_dir, fname + ".blend")
+            blend_path = pathjoin(blend_dir, f"{fname}.blend")
             bpy.ops.wm.save_mainfile(filepath=os.path.abspath(blend_path))
         # save image at last for unstable compute enviroment
         if self.get("image") is not None:
             image_dir = pathjoin(dataset_dir, "image")
             os.makedirs(image_dir, exist_ok=True)
-            image_path = pathjoin(image_dir, fname + ".jpg")
+            image_path = pathjoin(image_dir, f"{fname}.jpg")
             cv2.imwrite(image_path, self["image"][..., ::-1])
 
 
 def parser_exr(exr_path):
-    exr = ExrImage(exr_path)
-    return exr
+    return ExrImage(exr_path)
 
 
 def test_parser_exr(exr_path="../tmp_exrs/cycles.exr"):

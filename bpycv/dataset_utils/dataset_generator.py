@@ -66,5 +66,3 @@ class MetaDatasetGenerator:
                     self.generate_one(abs_dir, index)
 
 
-if __name__ == "__main__":
-    pass

@@ -158,5 +158,3 @@ def add_environment_box(xyz=(2, 2, 2), thickness=0.2, transparency=False):
     return box
 
 
-if __name__ == "__main__":
-    pass

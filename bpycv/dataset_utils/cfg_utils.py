@@ -32,8 +32,7 @@ def get_arguments():
         nargs=argparse.REMAINDER,
     )
     argv_for_py = sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else []
-    args = parser.parse_args(argv_for_py)
-    return args
+    return parser.parse_args(argv_for_py)
 
 
 if __name__ == "__main__":

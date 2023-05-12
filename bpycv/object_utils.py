@@ -124,9 +124,6 @@ def get_obj_size_info(obj):
     box = np.array([v[:] for v in obj.bound_box]) * scale[None]
     size = box.max(0) - box.min(0)
     circumcircle = np.linalg.norm(box, axis=1).max()
-    size_info = dict(box=box, size=size, circumcircle=circumcircle, scale=scale)
-    return size_info
+    return dict(box=box, size=size, circumcircle=circumcircle, scale=scale)
 
 
-if __name__ == "__main__":
-    pass
